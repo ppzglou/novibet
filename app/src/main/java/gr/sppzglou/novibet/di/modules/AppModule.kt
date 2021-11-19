@@ -1,4 +1,4 @@
-package gr.sppzglou.novibet.di
+package gr.sppzglou.novibet.di.modules
 
 import android.app.Application
 import android.content.Context

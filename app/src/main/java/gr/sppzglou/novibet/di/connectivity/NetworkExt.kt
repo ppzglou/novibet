@@ -1,12 +1,12 @@
-package gr.sppzglou.novibet.di
+package gr.sppzglou.novibet.di.connectivity
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
-class ConnectivityHelper(private val connectivityManager: ConnectivityManager) {
-    fun checkInternetConnection(): Boolean {
-        val nw = connectivityManager.activeNetwork ?: return false
-        val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+val ConnectivityManager.isNetworkConnected: Boolean
+    get() {
+        val nw = this.activeNetwork ?: return false
+        val actNw = this.getNetworkCapabilities(nw) ?: return false
         return when {
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
@@ -17,4 +17,3 @@ class ConnectivityHelper(private val connectivityManager: ConnectivityManager) {
             else -> false
         }
     }
-}

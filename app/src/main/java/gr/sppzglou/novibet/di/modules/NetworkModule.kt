@@ -1,4 +1,4 @@
-package gr.sppzglou.novibet.di
+package gr.sppzglou.novibet.di.modules
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

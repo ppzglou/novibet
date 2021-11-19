@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gr.sppzglou.novibet.di.connectivity.ConnectivityLiveData
 import gr.sppzglou.novibet.di.connectivity.ConnectivityStatus
-import gr.sppzglou.novibet.utils.isNetworkConnected
+import gr.sppzglou.novibet.di.connectivity.isNetworkConnected
 import gr.sppzglou.single.utils.Event
 import gr.sppzglou.single.utils.SingleLiveEvent
 import kotlinx.coroutines.delay
