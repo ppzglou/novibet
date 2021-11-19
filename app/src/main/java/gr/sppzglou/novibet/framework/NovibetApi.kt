@@ -1,14 +1,17 @@
 package gr.sppzglou.novibet.framework
 
+import gr.sppzglou.novibet.data.LoginRequest
 import gr.sppzglou.novibet.data.Token
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 
 interface NovibetApi {
 
-    @GET("5d8e4bd9310000a2612b5448")
-    suspend fun token(): Token
+    @POST("5d8e4bd9310000a2612b5448")
+    suspend fun token(@Body loginRequest: LoginRequest): Token
 
     @GET("5d7113513300000b2177973a")
     suspend fun games(): Response<Boolean>

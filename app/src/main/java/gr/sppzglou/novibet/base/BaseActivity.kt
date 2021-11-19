@@ -1,6 +1,7 @@
 package gr.sppzglou.novibet.base
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -27,15 +28,12 @@ abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel>(clazz: Class<V
             connectivityLiveData.observe(this@BaseActivity) { event ->
                 event.getContentIfNotHandled()?.let(this@BaseActivity::connectivityChange)
             }
-
             connectivityUI.observe(this@BaseActivity) { event ->
                 event.getContentIfNotHandled()?.let(this@BaseActivity::connectivityChange)
             }
-
-            error.observe(this@BaseActivity, { message ->
-                //snackBar(message.getMessage(this))
-            })
-
+            error.observe(this@BaseActivity) { ex ->
+                Toast.makeText(this@BaseActivity, ex.message.toString(), Toast.LENGTH_SHORT).show()
+            }
             load.observe(this@BaseActivity) { event ->
                 event.getContentIfNotHandled()?.let {
 

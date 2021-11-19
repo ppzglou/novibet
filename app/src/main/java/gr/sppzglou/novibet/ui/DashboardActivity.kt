@@ -15,13 +15,15 @@ class DashboardActivity :
 
     override fun setupObservers() {
         with(viewModel) {
+            successToken.observe(this@DashboardActivity) {
 
+            }
         }
     }
 
     override fun setupViews() {
         with(binding) {
-
+            viewModel.token()
         }
     }
 
