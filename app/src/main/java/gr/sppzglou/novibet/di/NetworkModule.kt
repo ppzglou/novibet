@@ -1,8 +1,5 @@
 package gr.sppzglou.novibet.di
 
-import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -34,7 +31,6 @@ object NetworkModule {
     @Provides
     fun providesOkHttpClient(
         logger: HttpLoggingInterceptor,
-        connectivityHelper: ConnectivityHelper
     ): OkHttpClient {
 
         val okHttpClient = OkHttpClient.Builder()
@@ -43,21 +39,12 @@ object NetworkModule {
             .writeTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(logger)
-            .addInterceptor(ConnectivityInterceptor(connectivityHelper))
         val okHttp = okHttpClient.build()
 
         if (BuildConfig.DEBUG) {
             okHttpClient.addNetworkInterceptor(logger)
         }
         return okHttp
-    }
-
-    @Singleton
-    @Provides
-    fun provideConnectivityHelper(application: Application): ConnectivityHelper {
-        val connectivityManager =
-            application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return ConnectivityHelper(connectivityManager)
     }
 
     @Provides
@@ -82,9 +69,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun providesGson(): Gson {
-        return GsonBuilder()
-            .setLenient()
-            .create()
+        return GsonBuilder().create()
     }
 
 }
