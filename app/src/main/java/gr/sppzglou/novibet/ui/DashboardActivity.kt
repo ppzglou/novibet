@@ -27,4 +27,9 @@ class DashboardActivity :
 
 
     override fun setupListeners() {}
+
+    override fun onStop() {
+        viewModel.clearToken()
+        super.onStop()
+    }
 }

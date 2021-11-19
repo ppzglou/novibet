@@ -1,6 +1,8 @@
 package gr.sppzglou.novibet.framework
 
 import android.content.SharedPreferences
+import gr.sppzglou.novibet.utils.BEARER
+import gr.sppzglou.single.utils.set
 import javax.inject.Inject
 
 
@@ -10,7 +12,8 @@ class Repository @Inject constructor(
 ) {
 
     suspend fun token() {
-
+        val res = api.token()
+        sharedPref[BEARER] = res.token
     }
 
     suspend fun games() {

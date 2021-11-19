@@ -59,6 +59,4 @@ abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel>(clazz: Class<V
             else -> bar.isVisible = true
         }
     }
-
-
 }

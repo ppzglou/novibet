@@ -1,5 +1,6 @@
 package gr.sppzglou.novibet.di.modules
 
+import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -7,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import gr.sppzglou.novibet.BuildConfig
+import gr.sppzglou.novibet.di.NovibetInterceptor
 import gr.sppzglou.novibet.framework.NovibetApi
 import gr.sppzglou.novibet.utils.API_BASE_URL
 import okhttp3.OkHttpClient
@@ -31,6 +33,7 @@ object NetworkModule {
     @Provides
     fun providesOkHttpClient(
         logger: HttpLoggingInterceptor,
+        sharedPref: SharedPreferences
     ): OkHttpClient {
 
         val okHttpClient = OkHttpClient.Builder()
@@ -38,6 +41,7 @@ object NetworkModule {
             .connectTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
+            .addInterceptor(NovibetInterceptor(sharedPref))
             .addInterceptor(logger)
         val okHttp = okHttpClient.build()
 
