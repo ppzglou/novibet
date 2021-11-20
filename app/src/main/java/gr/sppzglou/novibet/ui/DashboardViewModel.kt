@@ -66,7 +66,7 @@ class DashboardViewModel
     }
 
     fun update() {
-        launch(5000) {
+        launch(2000) {
             withContext(Dispatchers.IO) {
                 val headlines = repo.updatedHeadlines()
                 if (headlines != null) _successUpdateHeadlines.postValue(headlines)
