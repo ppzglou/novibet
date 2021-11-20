@@ -13,8 +13,10 @@ import gr.sppzglou.novibet.framework.Repository
 import gr.sppzglou.novibet.utils.BEARER
 import gr.sppzglou.single.utils.SingleLiveEvent
 import gr.sppzglou.single.utils.set
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +39,9 @@ class DashboardViewModel
 
     private val _successUpdateGames = SingleLiveEvent<GameItem>()
     val successUpdateGames: LiveData<GameItem> = _successUpdateGames
+
+    private val _page = SingleLiveEvent<Boolean>()
+    val page: LiveData<Boolean> = _page
 
     fun clearToken() {
         sharedPref[BEARER] = null
@@ -62,12 +67,21 @@ class DashboardViewModel
 
     fun update() {
         launch(5000) {
-            val headlines = repo.updatedHeadlines()
-            if (headlines != null) _successUpdateHeadlines.value = headlines
+            withContext(Dispatchers.IO) {
+                val headlines = repo.updatedHeadlines()
+                if (headlines != null) _successUpdateHeadlines.postValue(headlines)
 
-            val games = repo.updatedGames()
-            if (games != null) _successUpdateGames.value = games
-            update()
+                val games = repo.updatedGames()
+                if (games != null) _successUpdateGames.postValue(games)
+                update()
+            }
+        }
+    }
+
+    fun pager() {
+        launch(5000) {
+            _page.value = true
+            pager()
         }
     }
 }
