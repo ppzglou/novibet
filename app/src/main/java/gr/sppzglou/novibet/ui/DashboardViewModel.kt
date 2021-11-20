@@ -68,11 +68,16 @@ class DashboardViewModel
     fun update() {
         launch(2000) {
             withContext(Dispatchers.IO) {
-                val headlines = repo.updatedHeadlines()
-                if (headlines != null) _successUpdateHeadlines.postValue(headlines)
-
-                val games = repo.updatedGames()
-                if (games != null) _successUpdateGames.postValue(games)
+                coroutineScope {
+                    async {
+                        val headlines = repo.updatedHeadlines()
+                        if (headlines != null) _successUpdateHeadlines.postValue(headlines)
+                    }
+                    async {
+                        val games = repo.updatedGames()
+                        if (games != null) _successUpdateGames.postValue(games)
+                    }
+                }
                 update()
             }
         }
