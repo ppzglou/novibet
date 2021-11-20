@@ -18,35 +18,22 @@ abstract class BaseViewModel(
     private val connectivityManager: ConnectivityManager
 ) : ViewModel() {
 
-    private val _load = MutableLiveData<Event<Boolean>>()
-    val load: LiveData<Event<Boolean>> = _load
-
     private val _connectivityUI = MutableLiveData<Event<ConnectivityStatus>>()
     val connectivityUI: LiveData<Event<ConnectivityStatus>> = _connectivityUI
 
-    val error = SingleLiveEvent<Exception>()
+    val _loadError = MutableLiveData<Boolean>()
+    val loadError: LiveData<Boolean> = _loadError
 
-    fun launch(function: suspend () -> Unit) {
-        viewModelScope.launch {
-            try {
-                function.invoke()
-            } catch (e: Exception) {
-                error.value = e
-            }
-        }
-    }
+    val error = SingleLiveEvent<Exception>()
 
     fun launch(delayTime: Int = 0, function: suspend () -> Unit) {
         viewModelScope.launch {
-            _load.value = Event(true)
             delay(delayTime.toLong())
             try {
                 function.invoke()
             } catch (e: Exception) {
                 error.value = e
             }
-        }.invokeOnCompletion {
-            _load.value = Event(false)
         }
     }
 

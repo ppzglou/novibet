@@ -33,11 +33,7 @@ abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel>(clazz: Class<V
             }
             error.observe(this@BaseActivity) { ex ->
                 Toast.makeText(this@BaseActivity, ex.message.toString(), Toast.LENGTH_SHORT).show()
-            }
-            load.observe(this@BaseActivity) { event ->
-                event.getContentIfNotHandled()?.let {
-
-                }
+                _loadError.value = true
             }
         }
 
@@ -53,8 +49,16 @@ abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel>(clazz: Class<V
         val bar = (this as DashboardActivity).binding.noInternet
 
         when (connectivityState) {
-            ConnectivityStatus.Connected -> bar.isVisible = false
-            else -> bar.isVisible = true
+            ConnectivityStatus.Connected -> {
+                bar.isVisible = false
+                if (viewModel._loadError.value != null || viewModel._loadError.value == true)
+                    viewModel._loadError.value = false
+            }
+            else -> {
+                bar.isVisible = true
+                if (viewModel._loadError.value != null || viewModel._loadError.value == false)
+                    viewModel._loadError.value = true
+            }
         }
     }
 }

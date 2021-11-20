@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
  *
  *
  * This avoids a common problem with events: on configuration change (like rotation) an update
- * can be emitted if the observer is active. This LiveData only calls the observable if there's an
+ * can be emitted if the observer is active. This gr.sppzglou.novibet.data.LiveData only calls the observable if there's an
  * explicit call to setValue() or call().
  *
  *
